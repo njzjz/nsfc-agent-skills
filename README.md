@@ -1,6 +1,4 @@
-# NSFC Agent Skills
-
-> **国家自然科学基金（NSFC）申请书撰写辅助技能包**
+# NSFC申请书撰写辅助智能体技能包
 
 这是一个专为 NSFC 申请书撰写设计的 Agent Skills 集合，帮助科研人员提高申请书质量，涵盖写作指导、图表制作、文献管理和政策速查等核心环节。
 
@@ -15,22 +13,11 @@
 | **[nsfc-literature](./nsfc-literature/SKILL.md)** | NSFC 申请书文献检索与引用 | 使用 OpenAlex API 检索文献，使用 wenxian 生成标准引用格式 |
 | **[nsfc-policy](./nsfc-policy/SKILL.md)** | NSFC 2026 年度申报政策速查 | 限项规定、AI 使用规范、申请代码、项目类型、结构改革等政策信息 |
 
-## 🚀 如何使用（OpenClaw）
+## 🚀 在 OpenClaw 中使用
 
-### 什么是智能体技能？
+本项目遵循 [Agent Skills](https://agentskills.io) 规范，这是一个为 AI 智能体设计的结构化知识库格式。每个技能都是一个包含 `SKILL.md` 文件的目录，文件中包含 YAML frontmatter 和 Markdown 格式的指导内容。
 
-本项目遵循 [AgentSkills](https://agentskills.io) 规范，这是一个为 AI 智能体设计的结构化知识库格式。每个技能都是一个包含 `SKILL.md` 文件的目录，文件中包含 YAML frontmatter 和 Markdown 格式的指导内容。
-
-### 在 OpenClaw 中使用
-
-将本仓库克隆到本地后，OpenClaw 会自动识别和加载这些技能：
-
-```bash
-git clone https://github.com/njzjz/nsfc-agent-skills.git
-cd nsfc-agent-skills
-```
-
-OpenClaw 会根据 [官方文档](https://docs.openclaw.ai/tools/skills) 自动管理技能的加载和配置。
+可以直接让OpenClaw安装这些技能，如“安装https://github.com/njzjz/nsfc-agent-skills/ 这个skill”。
 
 ## ⚠️ 免责声明
 
