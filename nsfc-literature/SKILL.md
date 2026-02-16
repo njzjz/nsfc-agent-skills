@@ -27,13 +27,16 @@ version: 0.1.0
 **基本用法**：
 ```bash
 # 搜索关键词，按引用数排序
-python scripts/search_literature.py "machine learning potential" --max-results 20 --sort cited_by_count
+uv run scripts/search_literature.py "machine learning potential" --limit 20 --sort cited_by_count
 
 # 搜索近3年的文献
-python scripts/search_literature.py "deep learning molecular dynamics" --year-from 2023
+uv run scripts/search_literature.py "deep learning molecular dynamics" --year-from 2023
 
 # 按发表日期排序（找最新文献）
-python scripts/search_literature.py "neural network force field" --sort publication_date
+uv run scripts/search_literature.py "neural network force field" --sort publication_date
+
+# 紧凑输出（每篇一行）
+uv run scripts/search_literature.py "density functional theory" --compact
 ```
 
 **返回信息**：标题、作者、期刊、年份、DOI、引用数、摘要
@@ -49,21 +52,22 @@ python scripts/search_literature.py "neural network force field" --sort publicat
 
 ## 引用生成
 
-### wenxian skill（需要代理）
+### wenxian
 
-**前置条件**：
-- 需要 `wenxian` skill 已安装
-- 需设置代理：`https_proxy=http://localhost:7890`
+[wenxian](https://github.com/njzjz/wenxian/tree/master/skill) 是一个学术引用生成工具，支持从 DOI、PMID、arXiv ID 等标识符生成标准引用格式。
 
 **脚本**：`scripts/generate_references.py`
 
 **用法**：
 ```bash
 # 从DOI列表文件生成BibTeX引用
-https_proxy=http://localhost:7890 python scripts/generate_references.py refs.txt --format bibtex
+uv run scripts/generate_references.py refs.txt --format bibtex
 
 # 生成纯文本引用
-https_proxy=http://localhost:7890 python scripts/generate_references.py refs.txt --format plain
+uv run scripts/generate_references.py refs.txt --format text
+
+# 输出到文件
+uv run scripts/generate_references.py refs.txt --format bibtex --output refs.bib
 ```
 
 **refs.txt 格式**（每行一个标识符）：
@@ -120,9 +124,9 @@ NSFC申请书通常使用**编号引用格式** [1], [2], ...
 - OpenAlex覆盖面广但不是100%，可辅以Google Scholar
 
 ### wenxian报错？
-- 确认设置了代理：`export https_proxy=http://localhost:7890`
+- 确认 `uvx` 已安装（`uv` 的一部分）
 - 确认DOI格式正确（如 `10.1038/s41586-020-2242-8`）
-- PubMed API需要代理才能访问
+- 部分API可能需要网络代理，请根据本地环境配置
 
 ### 格式不统一？
 - 使用同一工具生成所有引用

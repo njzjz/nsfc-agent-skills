@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
+# /// script
+# requires-python = ">=3.10"
+# ///
 """Search academic literature using the OpenAlex API (free, no API key required).
 
 Usage:
-    python3 search_literature.py "deep potential molecular dynamics" [--limit 10] [--year-from 2020] [--sort cited_by_count|relevance_score|publication_date]
+    uv run search_literature.py "deep potential molecular dynamics" [--limit 10] [--year-from 2020] [--sort cited_by_count|relevance_score|publication_date]
 
 Output: JSON list of papers with title, DOI, authors, year, citation count, abstract.
 """

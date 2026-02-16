@@ -148,7 +148,7 @@ gantt
 
 **使用方法**：
 ```bash
-python scripts/generate_roadmap.py \
+uv run scripts/generate_roadmap.py \
   --title "技术路线图" \
   --nodes "数据采集,模型训练,性能评估,应用验证" \
   --output roadmap.png \

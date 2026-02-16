@@ -1,12 +1,16 @@
 #!/usr/bin/env python3
+# /// script
+# requires-python = ">=3.10"
+# dependencies = ["matplotlib"]
+# ///
 """Generate a research roadmap figure for NSFC proposals.
 
 Usage:
-    python generate_roadmap.py --title "技术路线图" \
+    uv run generate_roadmap.py --title "技术路线图" \
         --nodes "数据采集,模型训练,性能评估,应用验证" \
         --output roadmap.png --dpi 300
 
-    python generate_roadmap.py --config roadmap.json --output roadmap.png
+    uv run generate_roadmap.py --config roadmap.json --output roadmap.png
 """
 
 import argparse
@@ -20,7 +24,7 @@ try:
     import matplotlib.patches as mpatches
     from matplotlib.patches import FancyBboxPatch
 except ImportError:
-    print("Error: matplotlib is required. Install with: pip install matplotlib")
+    print("Error: matplotlib is required. Run this script with: uv run generate_roadmap.py")
     sys.exit(1)
 
 

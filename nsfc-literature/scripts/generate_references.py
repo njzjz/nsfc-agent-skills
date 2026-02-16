@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
+# /// script
+# requires-python = ">=3.10"
+# ///
 """Generate references from a list of DOIs using wenxian.
 
 Usage:
-    python3 generate_references.py dois.txt [--format bibtex|text|markdown] [--output refs.bib]
+    uv run generate_references.py dois.txt [--format bibtex|text|markdown] [--output refs.bib]
 
 Input file: one DOI per line (lines starting with # are ignored).
 Requires: wenxian (installed via uvx).
