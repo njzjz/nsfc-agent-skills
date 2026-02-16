@@ -15,81 +15,22 @@
 | **[nsfc-literature](./nsfc-literature/SKILL.md)** | NSFC 申请书文献检索与引用 | 使用 OpenAlex API 检索文献，使用 wenxian 生成标准引用格式 |
 | **[nsfc-policy](./nsfc-policy/SKILL.md)** | NSFC 2026 年度申报政策速查 | 限项规定、AI 使用规范、申请代码、项目类型、结构改革等政策信息 |
 
-## 🚀 如何使用（openclaw）
+## 🚀 如何使用（OpenClaw）
 
-### 什么是 Agent Skills？
+### 什么是智能体技能？
 
-本项目遵循 [AgentSkills](https://agentskills.io) 规范，这是一个为 AI Agent 设计的结构化知识库格式。每个技能都是一个包含 `SKILL.md` 文件的目录，文件中包含 YAML frontmatter 和 Markdown 格式的指导内容。
+本项目遵循 [AgentSkills](https://agentskills.io) 规范，这是一个为 AI 智能体设计的结构化知识库格式。每个技能都是一个包含 `SKILL.md` 文件的目录，文件中包含 YAML frontmatter 和 Markdown 格式的指导内容。
 
 ### 在 OpenClaw 中使用
 
-OpenClaw 原生支持 AgentSkills 格式。根据 [OpenClaw 文档](https://docs.openclaw.ai/tools/skills)，技能从以下位置加载（优先级从高到低）：
-
-1. **工作区技能**：`<workspace>/skills`（最高优先级）
-2. **本地技能**：`~/.openclaw/skills`
-3. **捆绑技能**：随 OpenClaw 安装包一起发布
-
-#### 使用方式一：通过 ClawHub 安装
-
-[ClawHub](https://clawhub.com) 是 OpenClaw 的公共技能注册中心。如果本技能已发布到 ClawHub：
+将本仓库克隆到本地后，OpenClaw 会自动识别和加载这些技能：
 
 ```bash
-# 安装技能到当前工作区
-clawhub install nsfc-agent-skills
-
-# 或安装到 OpenClaw 的共享技能目录
-clawhub install nsfc-agent-skills --global
-```
-
-#### 使用方式二：手动安装到工作区
-
-将技能目录复制到 OpenClaw 工作区的 `skills` 文件夹：
-
-```bash
-# 克隆仓库
 git clone https://github.com/njzjz/nsfc-agent-skills.git
-
-# 复制技能到 OpenClaw 工作区（假设工作区在 ~/my-openclaw-workspace）
-cp -r nsfc-agent-skills/nsfc-write ~/my-openclaw-workspace/skills/
-cp -r nsfc-agent-skills/nsfc-figure ~/my-openclaw-workspace/skills/
-cp -r nsfc-agent-skills/nsfc-literature ~/my-openclaw-workspace/skills/
-cp -r nsfc-agent-skills/nsfc-policy ~/my-openclaw-workspace/skills/
+cd nsfc-agent-skills
 ```
 
-#### 使用方式三：配置额外的技能目录
-
-在 `~/.openclaw/openclaw.json` 中配置：
-
-```json
-{
-  "skills": {
-    "load": {
-      "extraDirs": ["/path/to/nsfc-agent-skills"]
-    }
-  }
-}
-```
-
-OpenClaw 会自动加载该目录下的所有技能子目录（`nsfc-write`、`nsfc-figure` 等）。
-
-#### 技能配置（可选）
-
-如果技能需要 API 密钥或环境变量，可在 `~/.openclaw/openclaw.json` 中配置：
-
-```json
-{
-  "skills": {
-    "entries": {
-      "nsfc-literature": {
-        "enabled": true,
-        "env": {
-          "OPENALEX_EMAIL": "your-email@example.com"
-        }
-      }
-    }
-  }
-}
-```
+OpenClaw 会根据 [官方文档](https://docs.openclaw.ai/tools/skills) 自动管理技能的加载和配置。
 
 ## ⚠️ 免责声明
 
