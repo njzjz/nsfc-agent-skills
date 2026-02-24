@@ -144,7 +144,7 @@ gantt
 ### Python (matplotlib)
 - 适合生成高质量定制图表
 - 脚本模板见 `scripts/generate_roadmap.py`
-- 支持��文字体、高分辨率输出
+- 支持中文字体、高分辨率输出
 
 **使用方法**：
 ```bash
