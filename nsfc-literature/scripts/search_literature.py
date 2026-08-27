@@ -16,6 +16,7 @@ import sys
 import urllib.error
 import urllib.parse
 import urllib.request
+from datetime import datetime, timezone
 
 OPENALEX_API = "https://api.openalex.org/works"
 USER_AGENT = "nsfc-agent-skills/0.1 (OpenAlex literature helper)"
@@ -74,18 +75,25 @@ def search(
     if not 1 <= limit <= 50:
         raise ValueError("limit must be between 1 and 50")
 
+    # Future-dated repository deposits can dominate publication-date sorting.
+    # Limit results to current journal and conference records by default.
+    filters = [
+        f"to_publication_date:{datetime.now(timezone.utc).date().isoformat()}",
+        "primary_location.source.type:journal|conference",
+    ]
+    if year_from:
+        filters.append(f"from_publication_date:{year_from}-01-01")
+
     params = {
         "search": query,
         "per_page": limit,
+        "filter": ",".join(filters),
     }
     if mailto:
         params["mailto"] = mailto
     # OpenAlex sorts by relevance by default when using search; only add sort for other fields
     if sort != "relevance_score":
         params["sort"] = sort + ":desc"
-    if year_from:
-        params["filter"] = f"from_publication_date:{year_from}-01-01"
-
     url = f"{OPENALEX_API}?{urllib.parse.urlencode(params)}"
     req = urllib.request.Request(
         url,

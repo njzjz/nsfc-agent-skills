@@ -89,6 +89,10 @@ def main():
 
     output = "\n\n".join(citations)
 
+    if not citations:
+        print("Error: no citations were generated; no output was written", file=sys.stderr)
+        return 1
+
     if failures and not args.ignore_errors:
         print(
             f"Error: {failures} identifier(s) failed; no output was written",
