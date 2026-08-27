@@ -141,7 +141,11 @@ def inspect_svg(path: Path) -> Inspection:
     if root.tag.rsplit("}", 1)[-1].lower() != "svg":
         inspection.errors.append("XML root element is not svg")
         return inspection
-    inspection.embedded_drawio = _contains_mxfile(data)
+    # Check both the original bytes and normalized XML. ElementTree resolves
+    # encodings and character references, which prevents equivalent markup
+    # such as UTF-16 SVG or ``m&#120;file`` from bypassing the detector.
+    normalized = ET.tostring(root, encoding="utf-8")
+    inspection.embedded_drawio = _contains_mxfile(data) or _contains_mxfile(normalized)
     return inspection
 
 

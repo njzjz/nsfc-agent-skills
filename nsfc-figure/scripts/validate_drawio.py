@@ -110,6 +110,13 @@ def validate_file(path: Path) -> ValidationReport:
         id_set = set(concrete_ids)
         if "0" not in id_set or "1" not in id_set:
             report.errors.append(f"{context}: graph must contain root cells '0' and '1'")
+        cells_by_id = {cell.get("id"): cell for cell in cells if cell.get("id")}
+        root_cell = cells_by_id.get("0")
+        layer_cell = cells_by_id.get("1")
+        if root_cell is not None and root_cell.get("parent"):
+            report.errors.append(f"{context}: root cell '0' must not have a parent")
+        if layer_cell is not None and layer_cell.get("parent") != "0":
+            report.errors.append(f"{context}: default layer cell '1' must have parent '0'")
 
         page_width = _float_attr(model, "pageWidth")
         page_height = _float_attr(model, "pageHeight")
@@ -119,6 +126,10 @@ def validate_file(path: Path) -> ValidationReport:
         for cell in cells:
             cell_id = cell.get("id", "<missing>")
             parent = cell.get("parent")
+            if cell_id not in {"0", "1"} and not parent:
+                report.errors.append(
+                    f"{context}: cell {cell_id!r} lacks a parent and is disconnected from root '0'"
+                )
             if parent and parent not in id_set:
                 report.errors.append(
                     f"{context}: cell {cell_id!r} references missing parent {parent!r}"
@@ -182,6 +193,33 @@ def validate_file(path: Path) -> ValidationReport:
                 report.warnings.append(
                     f"{context}: cell {cell_id!r} is hidden and may retain sensitive text"
                 )
+
+        # With every non-root cell required to have an existing parent, the
+        # only remaining way to be unreachable from cell '0' is a parent cycle.
+        reported_cycles: set[frozenset[str]] = set()
+        for start_id in concrete_ids:
+            current = start_id
+            path: list[str] = []
+            positions: dict[str, int] = {}
+            while current != "0":
+                if current in positions:
+                    cycle = path[positions[current] :]
+                    cycle_key = frozenset(cycle)
+                    if cycle_key not in reported_cycles:
+                        report.errors.append(
+                            f"{context}: parent cycle prevents root reachability: {cycle}"
+                        )
+                        reported_cycles.add(cycle_key)
+                    break
+                positions[current] = len(path)
+                path.append(current)
+                current_cell = cells_by_id.get(current)
+                if current_cell is None:
+                    break
+                parent = current_cell.get("parent")
+                if not parent or parent not in id_set:
+                    break
+                current = parent
 
     return report
 
